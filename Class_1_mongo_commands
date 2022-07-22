@@ -1,0 +1,46 @@
+// Projections
+//1. Inclusion
+db.movies.find({}, { _id: 0, name: 1, poster: 1, rating: 1 }).pretty()
+
+//2. Exclusive
+db.movies.find({}, { _id: 0, summary: 0, trailer: 0}).pretty()
+
+// Sorting
+// ascending
+db.movies.find({}).sort( {rating: 1} ).pretty()
+
+// descending
+db.movies.find({}).sort( {rating: -1} ).pretty()
+
+//example
+db.movies.find({}, { _id: 0, name: 1, rating: 1 }).sort({rating: -1, name: 1})
+
+//limit
+db.movies.find({}, { _id: 0, name: 1, rating: 1 }).sort({rating: -1, name: 1}).limit(2)
+
+//skip
+db.movies.find({}, { _id: 0, name: 1, rating: 1 }).sort({rating: -1, name: 1}).skip(2)
+
+
+// Aggregation
+db.orders_coll.insertMany([
+    { _id: 0, productName: "Steel beam", status: "new", quantity: 10 },
+    { _id: 1, productName: "Steel beam", status: "urgent", quantity: 20 },
+    { _id: 2, productName: "Steel beam", status: "urgent", quantity: 30 },
+    { _id: 3, productName: "Iron rod", status: "new", quantity: 15 },
+    { _id: 4, productName: "Iron rod", status: "urgent", quantity: 50 },
+    { _id: 5, productName: "Iron rod", status: "urgent", quantity: 10 }
+    ])
+
+db.orders_coll.aggregate([
+    { $match: { status: "urgent" } },
+    {
+        $group: { _id: "$productName", totalUrgentQuantity: { $sum : "$quantity" } }
+    }
+])
+
+db.movies.find({ name: "RRR"})
+
+db.movies.updateMany({}, {$set: {"Language": "English"}}, false, true)
+db.movies.updateMany({ name: { $in: ["RRR", "Baahubali"]}}, {$set: {"Language": "Telegu"}}, false, true)
+db.movies.updateOne({ name: "Jai Bhim"}, {$set: {"Language": "Tamil"}}, false, true)
