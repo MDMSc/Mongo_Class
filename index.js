@@ -168,17 +168,19 @@ app.delete("/movies/:id", async (req, res) => {
 });
 
 // update -> put
-// app.put("/movies", async (req, res) => {
-//     //db.movies.find({})
-//     const data = req.body;
-//     //console.log(data);
+app.put("/movies/:id", async (req, res) => {
+    //db.movies.find({})
+    const { id } = req.params;
+    const data = req.body;
+    console.log(data);
   
-//     const result = await client
-//       .db("class_mongo")
-//       .collection("movies")
-//       .insertMany(data);
+    const result = await client
+      .db("class_mongo")
+      .collection("movies")
+      .updateOne({ id : id }, { $set: data });
   
-//     res.send(result);
-// });
+    console.log(result);
+    result.modifiedCount > 0 ? res.send({msg: "Movie updated successfully" }) : res.status(400).send({ msg: "Movie not updated" });
+});
 
 app.listen(PORT, () => console.log(`App is running at ${PORT}`));
