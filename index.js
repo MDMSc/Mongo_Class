@@ -3,6 +3,8 @@ import express from "express"; //latest import
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 import { moviesRouter } from './routes/movies.js';
+import { usersRouter } from './routes/users.js';
+// import bcrypt from 'bcrypt';
 
 dotenv.config();
 // console.log(process.env); // env -> environmental variables
@@ -33,5 +35,16 @@ app.get("/", (req, res) => {
 });
 
 app.use('/movies', moviesRouter);
+app.use('/users', usersRouter);
 
 app.listen(PORT, () => console.log(`App is running at ${PORT}`));
+
+//Hashing password
+// async function genHashedPassword(password) {
+//     const NO_OF_ROUNDS = 10;
+//     const salt = await bcrypt.genSalt(NO_OF_ROUNDS);
+//     const hashedPassword = await bcrypt.hash(password, salt);
+//     console.log(salt);
+//     console.log(hashedPassword);
+//     return hashedPassword;
+// }

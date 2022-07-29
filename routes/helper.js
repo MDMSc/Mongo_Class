@@ -18,6 +18,14 @@ export async function createMovies(data) {
         .collection("movies")
         .insertMany(data);
 }
+
+export async function createUser(data) {
+    return await client
+        .db("class_mongo")
+        .collection("users")
+        .insertOne(data);
+}
+
 export async function getMovies(req) {
     return await client
         .db("class_mongo")
@@ -30,4 +38,11 @@ export async function getMovieByID(id) {
         .db("class_mongo")
         .collection("movies")
         .findOne({ id: id });
+}
+
+export async function getUserByName(username) {
+    return await client
+        .db("class_mongo")
+        .collection("users")
+        .findOne({ username: username });
 }

@@ -1,10 +1,11 @@
 import express from 'express';
 import { getMovies, getMovieByID, createMovies, deleteMovie, updateMovieByID } from './helper.js';
+import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // /movies
-router.get("/", async (req, res) => {
+router.get("/", auth ,async (req, res) => {
     //db.movies.find({})
     if (req.query.rating) {
       req.query.rating = +req.query.rating;
@@ -16,7 +17,7 @@ router.get("/", async (req, res) => {
   });
   
   // /movies/id
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
     const { id } = req.params;
   
     // const movie = movies.find(mv => mv.id === id);
@@ -31,7 +32,7 @@ router.get("/:id", async (req, res) => {
   //convert body -> JSON
   // using middleware - express.json()
   // router.post('/movies', express.json(), async (req, res) => {
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     //db.movies.find({})
     const data = req.body;
     //console.log(data);
