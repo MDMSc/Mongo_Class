@@ -19,6 +19,13 @@ export async function createMovies(data) {
         .insertMany(data);
 }
 
+export async function createMobiles(data) {
+    return await client
+        .db("class_mongo")
+        .collection("mobiles")
+        .insertMany(data);
+}
+
 export async function createUser(data) {
     return await client
         .db("class_mongo")
@@ -33,6 +40,15 @@ export async function getMovies(req) {
         .find(req.query)
         .toArray();
 }
+
+export async function getMobiles(req) {
+    return await client
+        .db("class_mongo")
+        .collection("mobiles")
+        .find(req.query)
+        .toArray();
+}
+
 export async function getMovieByID(id) {
     return await client
         .db("class_mongo")
